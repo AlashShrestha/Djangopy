@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from crud.models import Blog
 
 # Create your views here.
 def index(request):
-    # return HttpResponse("HELLO")
-    return render(request, "index.html")
+    blog = Blog.objects.all()
+    return render(request, "index.html", {"blogs": blog})
 
 
 def about(request):
