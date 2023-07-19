@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Django</title>
-  </head>
-  <body>
-    <h1>This is Django Template</h1>
-    {%for blog in blogs%}
-    <h2>{{blog.title}}</h2>
-    <p>{{blog.description}}</p>
-    {%endfor%}
-  </body>
-</html>
+<h1>This is Django Template</h1>
+{%for blog in blogs%}
+<h2>{{blog.title}}</h2>
+<p>{{blog.description}}</p>
+<hr />
+{%endfor%}
+
+{%if blog%}
+<h2>{{blog.title}}</h2>
+<p>{{blog.description}}</p>
+{%endif%}
