@@ -19,7 +19,4 @@ from django.urls import include, path
 
 from crud.views import index
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("", include("crud.urls"))
-]
+urlpatterns = [path("admin/", admin.site.urls), path("", include("crud.urls"))]
