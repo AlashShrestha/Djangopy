@@ -1,11 +1,21 @@
 <h1>This is Django Template</h1>
+<!-- For all Blogs -->
 {%for blog in blogs%}
-<h2>{{blog.title}}</h2>
+<a href="{%url 'partData' blog.id%}">
+    <h2>{{blog.title}}</h2>
+</a>
 <p>{{blog.description}}</p>
 <hr />
 {%endfor%}
 
+<!-- Particular Blog -->
 {%if blog%}
 <h2>{{blog.title}}</h2>
 <p>{{blog.description}}</p>
+<a href="{%url 'deleteBlog' blog.id%}">
+    <button type="submit">Delete</button>
+</a>
+<a href="{%url 'updateBlog' blog.id%}">
+    <button type="submit">Update</button>
+</a>
 {%endif%}
