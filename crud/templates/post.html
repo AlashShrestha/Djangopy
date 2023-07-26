@@ -1,7 +1,8 @@
-<h1>This is Django Template</h1>
+{% load static %}
+<h1>Your Post</h1>
 <!-- For all Blogs -->
-{%for blog in blogs%}
-<a href="{%url 'partData' blog.id%}">
+{% for blog in blogs %}
+<a href="{% url 'partData' blog.id %}">
     <h2>{{blog.title}}</h2>
 </a>
 <p>{{blog.description}}</p>

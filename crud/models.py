@@ -3,7 +3,8 @@ from django.db import models
 
 # Create your models here.
 class Blog(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=100)
+    sub_heading = models.CharField(max_length=300, default="This is Sub Heading")
     description = models.TextField()
 
     def __str__(self):

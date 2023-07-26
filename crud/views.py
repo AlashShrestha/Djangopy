@@ -1,19 +1,17 @@
 from django.shortcuts import redirect, render
-from .models import Blog, Contact
+from .models import Blog
 from .forms import BlogForm
 
 
 # Create your views here.
-def index(request):
-    blog = Blog.objects.all()
-    return render(request, "index.html", {"blogs": blog})
-
-
 def home(request):
-    return render(
-        request,
-        "blog/home.html",
-    )
+    return render(request, "blog/home.html")
+
+
+def post(request):
+    blog = Blog.objects.all()
+    context = {"blogs": blog}
+    return render(request, "post.html", context)
 
 
 def about(request):
@@ -25,11 +23,15 @@ def contact(request):
 
 
 def create(request):
-    form = BlogForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect("index")
-    return render(request, "create.html", {"forms": form})
+    return render(request, "blog/create.html")
+
+
+# def create(request):
+#     form = BlogForm(request.POST or None)
+#     if form.is_valid():
+#         form.save()
+#         return redirect("post")
+#     return render(request, "create.html", {"forms": form})
 
 
 # def contact(request):
@@ -41,26 +43,26 @@ def create(request):
 #             email = dataEmail
 #         )
 #         contact.save()
-#         return redirect('index')
+#         return redirect('post')
 #     return render(request, "contact.html")
 
 
 def partData(request, id):
     blog = Blog.objects.get(id=id)
     context = {"blog": blog}
-    return render(request, "index.html", context)
+    return render(request, "post.html", context)
 
 
-def deleteBlog(request, id):
-    blog = Blog.objects.get(id=id)
-    blog.delete()
-    return redirect("index")
+# def deleteBlog(request, id):
+#     blog = Blog.objects.get(id=id)
+#     blog.delete()
+#     return redirect("post")
 
 
-def updateBlog(request, id):
-    blog = Blog.objects.get(id=id)
-    form = BlogForm(request.POST or None, instance=blog)
-    if form.is_valid():
-        form.save()
-        return redirect("index")
-    return render(request, "create.html", {"forms": form})
+# def updateBlog(request, id):
+#     blog = Blog.objects.get(id=id)
+#     form = BlogForm(request.POST or None, instance=blog)
+#     if form.is_valid():
+#         form.save()
+#         return redirect("post")
+#     return render(request, "create.html", {"forms": form})
