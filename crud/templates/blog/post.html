@@ -30,5 +30,13 @@
         </div>
     </div>
 </article>
+<div class="container d-flex justify-content-center">
+<a href="{% url 'crud:updateBlog' blog.id%}">
+    <button type="button" class="btn btn-success mx-5 my-2">Update</button>
+</a>
+<a href="{% url 'crud:deleteBlog' blog.id%}">
+    <button type="button" class="btn btn-danger mx-5 my-2">Delete</button>
+</a>
+</div>
 {% endif %}
 {% endblock %}

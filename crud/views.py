@@ -1,12 +1,18 @@
-from email import message
+from multiprocessing import context
+from turtle import title
 from django.shortcuts import redirect, render
 from .models import Blog, Contact
 from datetime import date
-
+from crud.forms import BlogForm
 
 # Create your views here.
 def home(request):
     blog = Blog.objects.all()
+    if (request.method == "POST"):
+        searchData = request.POST.get("search")
+        if (searchData != ""):
+            data = Blog.objects.filter(title__icontains = searchData)
+            return render(request, "blog/home.html", {"blogs": data})
     return render(request, "blog/home.html", {"blogs": blog})
 
 
@@ -53,13 +59,26 @@ def post(request, id):
     blog = Blog.objects.get(id=id)
     return render(request, "blog/post.html", {"blog": blog})
 
+def deletBlog(request, id):
+    blogs = Blog.objects.get(id=id)
+    blogs.delete()
+    return redirect('crud:home')
 
-# def datetme():
-#     current_date = date.today()
-# def post(request):
-#     blog = Blog.objects.all()
-#     context = {"blogs": blog}
-#     return render(request, "post.html", context)
+
+def updateBlog(request, id):
+    blog = Blog.objects.get(id=id)
+    form = BlogForm(request.POST or None, instance=blog)
+    if form.is_valid():
+        form.save()
+        return redirect("crud:create")
+    context = {
+        'form': form,
+        'user_name': blog.user_name,
+        'title' : blog.title,
+        'sub_heading' : blog.sub_heading,
+        'content' : blog.content,
+    }
+    return render(request, "blog/create.html", context)
 
 # def create(request):
 #     form = BlogForm(request.POST or None)
@@ -82,16 +101,3 @@ def post(request, id):
 #     return render(request, "contact.html")
 
 
-# def deleteBlog(request, id):
-#     blog = Blog.objects.get(id=id)
-#     blog.delete()
-#     return redirect("post")
-
-
-# def updateBlog(request, id):
-#     blog = Blog.objects.get(id=id)
-#     form = BlogForm(request.POST or None, instance=blog)
-#     if form.is_valid():
-#         form.save()
-#         return redirect("post")
-#     return render(request, "create.html", {"forms": form})

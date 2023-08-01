@@ -10,6 +10,6 @@ urlpatterns = [
     path("contact/", contact, name="contact"),
     path("post/<int:id>/", post, name="post"),
     # path("post/", create, name="post"),
-    # path("delete/<int:id>/", deleteBlog, name="deleteBlog"),
-    # path("update/<int:id>/", updateBlog, name="updateBlog"),
+    path("delete/<int:id>/", deletBlog, name="deleteBlog"),
+    path("update/<int:id>/", updateBlog, name="updateBlog"),
 ]

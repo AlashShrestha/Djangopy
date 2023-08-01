@@ -22,19 +22,22 @@
                 <form method="POST">
                     {% csrf_token %}
                     <div class="form-floating">
-                        <input class="form-control" for="user_name" name="user_name" type="name" placeholder="Enter your Name..."  />
+                        <input class="form-control" for="user_name" name="user_name" type="name" placeholder="Enter your Name..."  
+                        value ="{{user_name}}" />
                         <label for="name">Name</label>
                     </div>
                     <div class="form-floating">
-                        <input class="form-control" for="title" name="title" type="text" placeholder="Enter your Title..."  />
+                        <input class="form-control" for="title" name="title" type="text" placeholder="Enter your Title..." 
+                        value ="{{title}}"/>
                         <label for="title">Title</label>
                     </div>
                     <div class="form-floating">
-                        <input class="form-control" for="sub_heading" name="sub_heading" type="text" placeholder="Enter your Sub Heading..."  />
+                        <input class="form-control" for="sub_heading" name="sub_heading" type="text" placeholder="Enter your Sub Heading..." 
+                        value ="{{sub_heading}}"/>
                         <label for="sub_heading">Sub-Heading</label>
                     </div>
                     <div class="form-floating">
-                        <textarea class="form-control" for="content" name="content" placeholder="Enter your message here..." style="height: 20rem" ></textarea>
+                        <textarea class="form-control" for="content" name="content" placeholder="Enter your message here..." style="height: 20rem" >{{content}}</textarea>
                         <label for="content">Content</label>
                     </div>
                     <br />
