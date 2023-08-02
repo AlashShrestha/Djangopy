@@ -16,7 +16,6 @@ class Blog(models.Model):
 class Contact(models.Model):
     name = models.CharField(max_length=150)
     email = models.EmailField()
-    phone = models.BigIntegerField()
     message = models.TextField()
 
     def __str__(self):

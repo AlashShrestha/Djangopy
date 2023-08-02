@@ -1,19 +1,25 @@
-from multiprocessing import context
-from turtle import title
 from django.shortcuts import redirect, render
+from django.core.paginator import Paginator
 from .models import Blog, Contact
 from datetime import date
 from crud.forms import BlogForm
+from Demo.settings import EMAIL_HOST_USER
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+
 
 # Create your views here.
 def home(request):
     blog = Blog.objects.all()
-    if (request.method == "POST"):
+    paginator = Paginator(blog, 2)  # Show 25 contacts per page.
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    if request.method == "POST":
         searchData = request.POST.get("search")
-        if (searchData != ""):
-            data = Blog.objects.filter(title__icontains = searchData)
+        if searchData != "":
+            data = Blog.objects.filter(title__icontains=searchData)
             return render(request, "blog/home.html", {"blogs": data})
-    return render(request, "blog/home.html", {"blogs": blog})
+    return render(request, "blog/home.html", {"blogs": page_obj, "page_obj": page_obj})
 
 
 def create(request):
@@ -39,30 +45,41 @@ def about(request):
 
 
 def contact(request):
-    if request.method == "POST":
-        data_name = request.POST.get("name")
-        data_email = request.POST.get("email")
-        data_phone = request.POST.get("phone")
-        data_message = request.POST.get("message")
-        contact = Contact(
-            user_name=data_name,
-            title=data_email,
-            phone=data_phone,
-            message=data_message,
+    if request.method != "POST":
+        return render(request, "blog/contact.html")
+    data_name = request.POST.get("name")
+    data_email = request.POST.get("email")
+    data_message = request.POST.get("message")
+    data_subject = "Django Email"
+    recipient = "kajullenneupri-3691@yopmail.com",
+    contact = Contact(
+        name=data_name,
+        email=data_email,
+        message=data_message,
+    )
+    contact.save()
+    template = render_to_string('blog/email.html', {'name': data_name, 'description':data_message,'mail':data_email})
+    email = EmailMessage(
+        data_subject,
+        template,
+        EMAIL_HOST_USER,
+        recipient,
         )
-        contact.save()
-        return redirect("crud:home")
-    return render(request, "blog/contact.html")
+    # email.fail_silently = False
+    if email != None:
+        email.send()
+    return redirect("crud:contact")
 
 
 def post(request, id):
     blog = Blog.objects.get(id=id)
     return render(request, "blog/post.html", {"blog": blog})
 
+
 def deletBlog(request, id):
     blogs = Blog.objects.get(id=id)
     blogs.delete()
-    return redirect('crud:home')
+    return redirect("crud:home")
 
 
 def updateBlog(request, id):
@@ -72,13 +89,14 @@ def updateBlog(request, id):
         form.save()
         return redirect("crud:create")
     context = {
-        'form': form,
-        'user_name': blog.user_name,
-        'title' : blog.title,
-        'sub_heading' : blog.sub_heading,
-        'content' : blog.content,
+        "form": form,
+        "user_name": blog.user_name,
+        "title": blog.title,
+        "sub_heading": blog.sub_heading,
+        "content": blog.content,
     }
     return render(request, "blog/create.html", context)
+
 
 # def create(request):
 #     form = BlogForm(request.POST or None)
@@ -99,5 +117,3 @@ def updateBlog(request, id):
 #         contact.save()
 #         return redirect('post')
 #     return render(request, "contact.html")
-
-
