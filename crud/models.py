@@ -20,3 +20,18 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Links(models.Model):
+    url = models.URLField()
+    icon = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.icon
+
+
+class CompanyName(models.Model):
+    name = models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.name

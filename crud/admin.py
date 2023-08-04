@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Blog, Contact
+from .models import Blog, Contact, Links, CompanyName
 
 # Register your models here.
 admin.site.site_header = "Admin Header"
@@ -25,3 +25,5 @@ class BlogAdmin(admin.ModelAdmin):
 
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Contact)
+admin.site.register(Links)
+admin.site.register(CompanyName)

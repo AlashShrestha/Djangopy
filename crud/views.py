@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
-from .models import Blog, Contact
+from .models import Blog, Contact, Links, CompanyName
 from datetime import date
 from crud.forms import BlogForm
 from Demo.settings import EMAIL_HOST_USER
@@ -14,12 +14,19 @@ def home(request):
     paginator = Paginator(blog, 2)  # Show 25 contacts per page.
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
+    link = Links.objects.all()
+    company_name = CompanyName.objects.all()[0]
+    context = {
+        "blogs": page_obj,
+        "links": link,
+        "company_name": company_name.name,
+    }
     if request.method == "POST":
         searchData = request.POST.get("search")
         if searchData != "":
             data = Blog.objects.filter(title__icontains=searchData)
             return render(request, "blog/home.html", {"blogs": data})
-    return render(request, "blog/home.html", {"blogs": page_obj, "page_obj": page_obj})
+    return render(request, "blog/home.html", context)
 
 
 def create(request):
@@ -37,35 +44,47 @@ def create(request):
         )
         blog.save()
         return redirect("crud:home")
-    return render(request, "blog/create.html")
+    link = Links.objects.all()
+    company_name = CompanyName.objects.all()[0]
+    context = {"links": link, "company_name": company_name.name}
+    return render(request, "blog/create.html", context)
 
 
 def about(request):
-    return render(request, "blog/about.html")
+    link = Links.objects.all()
+    company_name = CompanyName.objects.all()[0]
+    context = {"links": link, "company_name": company_name.name}
+    return render(request, "blog/about.html", context)
 
 
 def contact(request):
+    link = Links.objects.all()
+    company_name = CompanyName.objects.all()[0]
+    context = {"links": link, "company_name": company_name.name}
     if request.method != "POST":
-        return render(request, "blog/contact.html")
+        return render(request, "blog/contact.html", context)
     data_name = request.POST.get("name")
     data_email = request.POST.get("email")
     data_message = request.POST.get("message")
     data_subject = "Django Email"
-    recipient = "kajullenneupri-3691@yopmail.com",
+    recipient = ("kajullenneupri-3691@yopmail.com",)
     contact = Contact(
         name=data_name,
         email=data_email,
         message=data_message,
     )
     contact.save()
-    template = render_to_string('blog/email.html', {'name': data_name, 'description':data_message,'mail':data_email})
+    template = render_to_string(
+        "blog/email.html",
+        {"name": data_name, "description": data_message, "mail": data_email},
+    )
     email = EmailMessage(
         data_subject,
         template,
         EMAIL_HOST_USER,
         recipient,
-        )
-    # email.fail_silently = False
+    )
+    email.fail_silently = False  # type: ignore
     if email != None:
         email.send()
     return redirect("crud:contact")
@@ -73,7 +92,10 @@ def contact(request):
 
 def post(request, id):
     blog = Blog.objects.get(id=id)
-    return render(request, "blog/post.html", {"blog": blog})
+    link = Links.objects.all()
+    company_name = CompanyName.objects.all()[0]
+    context = {"blog": blog, "links": link, "company_name": company_name.name}
+    return render(request, "blog/post.html", context)
 
 
 def deletBlog(request, id):
@@ -85,6 +107,8 @@ def deletBlog(request, id):
 def updateBlog(request, id):
     blog = Blog.objects.get(id=id)
     form = BlogForm(request.POST or None, instance=blog)
+    link = Links.objects.all()
+    company_name = CompanyName.objects.all()[0]
     if form.is_valid():
         form.save()
         return redirect("crud:create")
@@ -94,8 +118,18 @@ def updateBlog(request, id):
         "title": blog.title,
         "sub_heading": blog.sub_heading,
         "content": blog.content,
+        "links": link,
+        "company_name": company_name.name,
     }
     return render(request, "blog/create.html", context)
+
+
+def footer(request):
+    link = Links.objects.all()
+    company_name = CompanyName.objects.all()[0]
+    context = {"links": link, "company_name": company_name.name}
+    print(link, company_name)
+    return render(request, "footer.html", context)
 
 
 # def create(request):
