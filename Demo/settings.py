@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
 EXTERNAL_APPS = [
     "crud.apps.CrudConfig",
+    "users.apps.UsersConfig",
 ]
 
 INSTALLED_APPS += EXTERNAL_APPS

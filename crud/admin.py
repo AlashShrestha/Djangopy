@@ -1,3 +1,4 @@
+from os import name
 from django.contrib import admin
 from .models import Blog, Contact, Links, CompanyName
 
@@ -23,7 +24,15 @@ class BlogAdmin(admin.ModelAdmin):
     search_fields = ("user_name",)
 
 
+class CompanyNameAdmin(admin.ModelAdmin):
+    list_display = (
+        "__str__",
+        "name",
+    )
+    list_editable = ("name",)
+
+
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Contact)
 admin.site.register(Links)
-admin.site.register(CompanyName)
+admin.site.register(CompanyName, CompanyNameAdmin)
