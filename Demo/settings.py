@@ -138,3 +138,5 @@ EMAIL_HOST_PASSWORD = "qogwpvcyeutsfdul"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "alashsth2019@gmail.com"
+
+LOGIN_URL = "/users/login/"
