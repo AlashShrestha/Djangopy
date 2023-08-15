@@ -6,6 +6,7 @@ from crud.forms import BlogForm
 from Demo.settings import EMAIL_HOST_USER
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -15,11 +16,11 @@ def home(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     link = Links.objects.all()
-    company_name = CompanyName.objects.all()[0]
+    company_name = CompanyName.objects.all()
     context = {
         "blogs": page_obj,
         "links": link,
-        "company_name": company_name.name,
+        "company_name": company_name,
     }
     if request.method == "POST":
         searchData = request.POST.get("search")
@@ -29,9 +30,12 @@ def home(request):
     return render(request, "blog/home.html", context)
 
 
+@login_required
 def create(request):
     if request.method == "POST":
-        data_user_name = request.POST.get("user_name")
+        # data_user_name = request.POST.get("user_name")
+        data_user_name = request.user
+        print(data_user_name)
         data_title = request.POST.get("title")
         data_sub_heading = request.POST.get("sub_heading")
         data_content = request.POST.get("content")
@@ -45,22 +49,22 @@ def create(request):
         blog.save()
         return redirect("crud:home")
     link = Links.objects.all()
-    company_name = CompanyName.objects.all()[0]
-    context = {"links": link, "company_name": company_name.name}
+    company_name = CompanyName.objects.all()
+    context = {"links": link, "company_name": company_name}
     return render(request, "blog/create.html", context)
 
 
 def about(request):
     link = Links.objects.all()
-    company_name = CompanyName.objects.all()[0]
-    context = {"links": link, "company_name": company_name.name}
+    company_name = CompanyName.objects.all()
+    context = {"links": link, "company_name": company_name}
     return render(request, "blog/about.html", context)
 
 
 def contact(request):
     link = Links.objects.all()
-    company_name = CompanyName.objects.all()[0]
-    context = {"links": link, "company_name": company_name.name}
+    company_name = CompanyName.objects.all()
+    context = {"links": link, "company_name": company_name}
     if request.method != "POST":
         return render(request, "blog/contact.html", context)
     data_name = request.POST.get("name")
@@ -93,8 +97,8 @@ def contact(request):
 def post(request, id):
     blog = Blog.objects.get(id=id)
     link = Links.objects.all()
-    company_name = CompanyName.objects.all()[0]
-    context = {"blog": blog, "links": link, "company_name": company_name.name}
+    company_name = CompanyName.objects.all()
+    context = {"blog": blog, "links": link, "company_name": company_name}
     return render(request, "blog/post.html", context)
 
 
@@ -108,7 +112,7 @@ def updateBlog(request, id):
     blog = Blog.objects.get(id=id)
     form = BlogForm(request.POST or None, instance=blog)
     link = Links.objects.all()
-    company_name = CompanyName.objects.all()[0]
+    company_name = CompanyName.objects.all()
     if form.is_valid():
         form.save()
         return redirect("crud:create")
@@ -119,16 +123,15 @@ def updateBlog(request, id):
         "sub_heading": blog.sub_heading,
         "content": blog.content,
         "links": link,
-        "company_name": company_name.name,
+        "company_name": company_name,
     }
     return render(request, "blog/create.html", context)
 
 
 def footer(request):
     link = Links.objects.all()
-    company_name = CompanyName.objects.all()[0]
-    context = {"links": link, "company_name": company_name.name}
-    print(link, company_name)
+    company_name = CompanyName.objects.all()
+    context = {"links": link, "company_name": company_name}
     return render(request, "footer.html", context)
 
 

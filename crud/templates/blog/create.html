@@ -22,8 +22,8 @@
                 <form method="POST">
                     {% csrf_token %}
                     <div class="form-floating">
-                        <input class="form-control" for="user_name" name="user_name" type="name" required placeholder="Enter your Name..."  
-                        value ="{{user_name}}" />
+                        <input class="form-control" for="user_name" name="user_name" type="hidden" required placeholder="Enter your Name..."  
+                        value ="{{user}}" />
                         <label for="name">Name</label>
                     </div>
                     <div class="form-floating">

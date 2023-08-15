@@ -48,13 +48,14 @@ def logoutUser(request):
 
 
 def forgotpassword(request):
-    if(request.method == "POST"):
+    if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
         confirmpassword = request.POST.get("confirmpassword")
-        if(password == confirmpassword):
+        if password == confirmpassword:
             user = User.objects.get(username=username)
-            if(user):
-                user.set_password(password) 
-                user.save()      
-        return redirect("users:forgot")
+            if user:
+                user.set_password(password)
+                user.save()
+                return redirect("users:login")
+    return render(request, "forgot.html")
