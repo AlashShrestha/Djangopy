@@ -15,4 +15,4 @@ python-decouple==3.8
 sqlparse==0.4.4
 typing_extensions==4.7.1
 tzdata==2023.3
-virtualenv==23.2.1
+virtualenv==20.24.3
