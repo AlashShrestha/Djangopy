@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from django.core.paginator import Paginator
+# from django.core.paginator import Paginator
 from .models import Blog, Contact, Links, CompanyName
 from datetime import date
 from crud.forms import BlogForm
@@ -12,13 +12,13 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 def home(request):
     blog = Blog.objects.all()
-    paginator = Paginator(blog, 2)  # Show 25 contacts per page.
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+    # paginator = Paginator(blog, 2)  # Show 25 contacts per page.
+    # page_number = request.GET.get("page")
+    # page_obj = paginator.get_page(page_number)
     link = Links.objects.all()
     company_name = CompanyName.objects.all()
     context = {
-        "blogs": page_obj,
+        "blogs": blog,
         "links": link,
         "company_name": company_name,
     }
