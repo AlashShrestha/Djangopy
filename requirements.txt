@@ -3,7 +3,7 @@ click==8.1.6
 colorama==0.4.6
 distlib==0.3.6
 dj-database-url==2.0.0
-Django==4.2.3
+Django==3.2.20
 filelock==3.12.2
 gunicorn==21.2.0
 mypy-extensions==1.0.0
@@ -15,4 +15,4 @@ python-decouple==3.8
 sqlparse==0.4.4
 typing_extensions==4.7.1
 tzdata==2023.3
-virtualenv==20.23.1
+virtualenv==23.2.1
