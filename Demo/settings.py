@@ -31,6 +31,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Application definition
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
 EXTERNAL_APPS = [
     "crud.apps.CrudConfig",
     "users.apps.UsersConfig",
+    "whitenoise.runserver_nostatic",
 ]
 
 INSTALLED_APPS += EXTERNAL_APPS
@@ -134,7 +136,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
