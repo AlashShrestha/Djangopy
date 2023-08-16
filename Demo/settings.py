@@ -30,7 +30,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["www.alashshrestha.com.np/"]
+ALLOWED_HOSTS = ["www.alashshrestha.com.np/", "blogapp-g4hv.onrender.com/"]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
