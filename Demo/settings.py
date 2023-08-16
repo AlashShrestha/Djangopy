@@ -48,7 +48,6 @@ INSTALLED_APPS = [
 EXTERNAL_APPS = [
     "crud.apps.CrudConfig",
     "users.apps.UsersConfig",
-    # "whitenoise.runserver_nostatic",
 ]
 
 INSTALLED_APPS += EXTERNAL_APPS
