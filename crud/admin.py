@@ -1,4 +1,3 @@
-from os import name
 from django.contrib import admin
 from .models import Blog, Contact, Links, CompanyName
 

@@ -1,5 +1,4 @@
 from django.shortcuts import redirect, render
-# from django.core.paginator import Paginator
 from .models import Blog, Contact, Links, CompanyName
 from datetime import date
 from crud.forms import BlogForm
@@ -33,9 +32,7 @@ def home(request):
 @login_required
 def create(request):
     if request.method == "POST":
-        # data_user_name = request.POST.get("user_name")
         data_user_name = request.user
-        print(data_user_name)
         data_title = request.POST.get("title")
         data_sub_heading = request.POST.get("sub_heading")
         data_content = request.POST.get("content")
@@ -133,24 +130,3 @@ def footer(request):
     company_name = CompanyName.objects.all()
     context = {"links": link, "company_name": company_name}
     return render(request, "footer.html", context)
-
-
-# def create(request):
-#     form = BlogForm(request.POST or None)
-#     if form.is_valid():
-#         form.save()
-#         return redirect("post")
-#     return render(request, "create.html", {"forms": form})
-
-
-# def contact(request):
-#     if(request.method == "POST"):
-#         dataName = request.POST.get("name")
-#         dataEmail = request.POST.get("email")
-#         contact = Contact(
-#             name = dataName,
-#             email = dataEmail
-#         )
-#         contact.save()
-#         return redirect('post')
-#     return render(request, "contact.html")
