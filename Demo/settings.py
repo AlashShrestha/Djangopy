@@ -29,7 +29,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["www.alashshrestha.com.np/", "blogapp-g4hv.onrender.com/"]
+ALLOWED_HOSTS = ["www.alashshrestha.com.np"]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 
@@ -42,14 +42,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-]
-
-EXTERNAL_APPS = [
     "crud.apps.CrudConfig",
     "users.apps.UsersConfig",
 ]
-
-INSTALLED_APPS += EXTERNAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
